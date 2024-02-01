@@ -1,5 +1,7 @@
 const User = require('../models/users');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+dotenv.config({ path: './.env' });
 
 exports.getAddUser = (req, res, next) => {
     res.render('add-user',{
@@ -52,6 +54,37 @@ exports.getUsers = (req, res, next) => {
             limit:perPage,
         })
         console.log(perPage);
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
+
+exports.getUsers2 = (req, res, next) => {
+    console.log(req.body.limit);
+
+    currentPage = (req.body.page) ;
+    perPage = (req.body.limit);
+    let totalItems;
+    User.find()
+    .countDocuments()
+    .then(t=>{
+        totalItems = t;
+        return User.find()
+        .skip((currentPage-1)*perPage)
+        .limit(perPage)
+    })
+    .then(users=>{
+        res.send({
+            users: users,
+            currentPage: currentPage,
+            hasNextPage: perPage*currentPage < totalItems,
+            hasPreviousPage: currentPage>1,
+            nextPage: currentPage+1,
+            previousPage: currentPage-1,
+            limit: perPage,
+        })
+        // console.log(perPage);
     })
     .catch(err=>{
         console.log(err);
