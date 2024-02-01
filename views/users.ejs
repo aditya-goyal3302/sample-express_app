@@ -3,9 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" type="text/css" href="/CSS/users.css">
 </head>
 <body>
+    <h1>Welcome to portal</h1>
+    <a href="/">Home</a>
+    <a href="/adduser">Add User</a>
+    <br><br>
+    <table border="1px">
+        <tr>
+            <th>Name</th>
+            <th>age</th>
+            <th>E-mail</th>
+            <th>city</th>
+        </tr>
+        <% for(var i=0; i<users.length; i++) { %>
+            <tr>
+                <td><%= users[i].name %></td>
+                <td><%= users[i].age %></td>
+                <td><%= users[i].email %></td>
+                <td><%= users[i].city %></td>
+            </tr>
+        <%}%>
+    </table>
+    <section class="pagination">
+        <% if (currentPage != 1){%><a href="?page=1">1</a><%}%>
+        <% if (hasPreviousPage && previousPage !=1){%><a href="?page=<%= previousPage %>" ><%= previousPage %></a><%}%>
+        <a href="#" class="active" ><%= currentPage %></a>
+        <% if (hasNextPage){%><a href="?page=<%= nextPage %>"><%= nextPage %></a><%}%>
+        <% if (currentPage != lastPage && nextPage != lastPage){%><a href="?page=<%= lastPage %>"><%= lastPage %></a><%}%>
+    </section>
     
 </body>
 </html>
