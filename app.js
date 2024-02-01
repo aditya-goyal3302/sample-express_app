@@ -7,6 +7,8 @@ const app = express();
 const port = 2984;
 const User = require('./models/users');
 const adminroutes = require('./routes/admin');
+errorController = require('./controllers/error-controller');
+
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
@@ -18,6 +20,8 @@ app.use('/admin', adminroutes)
 app.get('/',(req,res,next)=>{
     res.render('index');
 })
+
+app.use(errorController.get404);
 
 mongoose
     .connect(MONGODB_URI)
