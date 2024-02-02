@@ -21,6 +21,21 @@ th,td{
     height: 20px;
     width: 25px;
 }
+.pagination> * {
+    margin: 10px 5px;
+}
+.pagination>button{
+    padding: 5px;
+    text-decoration: none;
+    color: black;
+    border: 1px solid transparent;
+    background-color: wheat;
+    margin: 0 5px;
+    border-radius: 10px;
+    /* font-weight: 900; */
+    /* height: 10px; */
+
+}
 .pagination>a:hover{  
     border: 1px solid black;
 
@@ -33,9 +48,9 @@ th,td{
     padding: 5px;
     text-decoration: none;
     color: black;
-    font-size: 20px;
+    font-size: 25px;
     border: 1px solid transparent;
-    margin: 0 5px;
+    margin: 5px 5px;
 }
 .disabled{
     opacity: 0.5;
@@ -44,7 +59,7 @@ th,td{
 .disabled:hover{
     pointer-events: none;
 }
-tr>td>form>button>img,
+tr>td>button>img,
 tr>td>a>img{
     height: 20px;
     width: 20px;

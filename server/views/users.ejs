@@ -8,6 +8,7 @@
     <a href="/">Home</a>
     <a href="/admin/adduser">Add User</a>
     <br><br>
+    <input type="text" id="search" onchange="search_()"/>
     <table border="1px">
         <tr>
             <th>Name</th>
@@ -18,35 +19,21 @@
             <th>Delete</th>
         </tr>
         <tbody id = "tbody">
-            <% for(var i=0; i<users.length; i++) { %>
-                <tr>
-                    <td><%= users[i].name %></td>
-                    <td><%= users[i].age %></td>
-                    <td><%= users[i].email %></td>
-                    <td><%= users[i].city %></td>
-                    <td><a href="/admin/edituser/<%= users[i]._id %>?edit=true"><img src="/icons8-edit.gif"/></a></td>
-                    <td><form action="/admin/deleteuser" method="POST">
-                        <input type="hidden" name="id" value="<%= users[i]._id %>">
-                        <button type="submit"><img src="/delete-button-svgrepo-com.png"/></button>
-                    </form></td>
-                    <!-- <td><a href="/admin/deleteuser/<%= users[i]._id %>"></a></td> -->
-                </tr>
-            <%}%>
+           
 
         </tbody>
     </table>
     <section class="pagination">
-        
-        <input type="hidden" id="page" value="<%= currentPage %>"/>
-        <select id="select" value="<%= limit %>">
+        <select id="select" >
             <option value="2" >2</option>
             <option value="5" >5</option>
             <option value="10">10</option>
         </select>
         <button type="submit" onclick="changeno()">Go</button>
-        <button onclick="next()" class='<%= (!hasPreviousPage) ?"disabled":"" %>' ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg></button>
-        <p class="crrno" id="page" value="<%= currentPage %> "><%= currentPage %> </p>
-        <button onclick="prev()" class='<%= (!hasNextPage) ?"disabled":"" %>'><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg></button>
+        <button onclick="prev()" id="prev_btn"  ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M15.293 3.293 6.586 12l8.707 8.707 1.414-1.414L9.414 12l7.293-7.293-1.414-1.414z"/></svg></button>
+        <p class="crrno" id="page" > </p>
+        <button onclick="next()" id="next_btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg></button>
+        <item id="item" class="crrno"> 0 - 0</item>
     </section>
     
 </body>

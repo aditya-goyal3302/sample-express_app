@@ -9,13 +9,15 @@ router.get('/adduser', adminController.getAddUser);
 router.post('/adduser', adminController.postAddUser);
 
 router.get('/users', adminController.getUsers);
-router.post('/users-ajax', adminController.getUsers2);
+router.post('/users', adminController.postUsers);
 
 router.get('/edituser/:userId', adminController.getEditUser);
 
 router.post('/edituser', adminController.postEditUser);
 
 router.post('/deleteuser', adminController.postDeleteUser);
+
+router.post('/search', adminController.postSearch);
 
 
 

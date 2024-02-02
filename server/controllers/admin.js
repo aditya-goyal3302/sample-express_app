@@ -29,42 +29,12 @@ exports.postAddUser = (req, res, next) => {
         });
 }
 exports.getUsers = (req, res, next) => {
-    currentPage = +req.query.page || 1;
-    perPage = +req.query.limit || 2;
-    let totalItems;
-    User.find()
-    .countDocuments()
-    .then(t=>{
-        totalItems = t;
-        return User.find()
-        .skip((currentPage-1)*perPage)
-        .limit(perPage)
-    })
-    
-    .then(users=>{
-        res.render('users',{
-            users:users,
-            pageTitle:'Users',
-            path:'/users',
-            currentPage:currentPage,
-            hasNextPage:perPage*currentPage < totalItems,
-            hasPreviousPage:currentPage>1,
-            nextPage:currentPage+1,
-            previousPage:currentPage-1,
-            limit:perPage,
-        })
-        console.log(perPage);
-    })
-    .catch(err=>{
-        console.log(err);
-    })
+    res.render('users')
 }
 
-exports.getUsers2 = (req, res, next) => {
-    console.log(req.body.limit);
-
-    currentPage = (req.body.page) ;
-    perPage = (req.body.limit);
+exports.postUsers = (req, res, next) => {
+    currentPage = req.body.page;
+    perPage = req.body.limit;
     let totalItems;
     User.find()
     .countDocuments()
@@ -75,8 +45,10 @@ exports.getUsers2 = (req, res, next) => {
         .limit(perPage)
     })
     .then(users=>{
+        console.log("t:"+totalItems)
         res.send({
             users: users,
+            t: totalItems,
             currentPage: currentPage,
             hasNextPage: perPage*currentPage < totalItems,
             hasPreviousPage: currentPage>1,
@@ -134,7 +106,47 @@ exports.postDeleteUser = (req, res, next) => {
     User.deleteOne({_id:req.body.id})
     .then(()=>{
         console.log('Deleted User');
-        res.redirect('/admin/users');
+        res.send({message:true});
+    })
+    .catch(err=>{
+        console.log(err);
+    })
+}
+exports.postSearch = (req, res, next) => {
+    currentPage = req.body.page;
+    perPage = req.body.limit;
+    let totalItems;
+    const searchQuery = req.body.searchQuery;
+    let reg = new RegExp("^"+searchQuery, "i");
+    User.find({$or:[
+        {name: { $regex: searchQuery, $options: 'i' }},
+        {email: { $regex: searchQuery, $options: 'i' }},
+        {city: { $regex: searchQuery, $options: 'i' } }
+    ]  })
+    .countDocuments()
+    .then(t=>{
+        totalItems = t;
+        return User.find({$or:[
+            {name: { $regex: searchQuery, $options: 'i' }},
+            {email: { $regex: searchQuery, $options: 'i' }},
+            {city: { $regex: searchQuery, $options: 'i' } }
+        ]  })
+        .skip((currentPage-1)*perPage)
+        .limit(perPage)
+    })
+    .then(users=>{
+        console.log("t:"+totalItems)
+        res.send({
+            users: users,
+            t: totalItems,
+            currentPage: currentPage,
+            hasNextPage: perPage*currentPage < totalItems,
+            hasPreviousPage: currentPage>1,
+            nextPage: currentPage+1,
+            previousPage: currentPage-1,
+            limit: perPage,
+        })
+        // console.log(perPage);
     })
     .catch(err=>{
         console.log(err);
