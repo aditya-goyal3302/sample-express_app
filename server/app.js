@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path')
+const session = require('express-session');
 const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 const MONGODB_URI =
@@ -14,13 +15,25 @@ const User = require('./models/users');
 const adminroutes = require('./routes/admin');
 errorController = require('./controllers/error-controller');
 
+app.use(
+    session({
+        secret: 'my secret',
+        resave: false,
+        saveUninitialized: false
+    })
+);
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 app.use('/admin', adminroutes)
 
 app.get('/',(req,res,next)=>{
-    res.render('index');
+    res.render('index',{
+        pageTitle:'Home',
+        path:'/',
+        isAuthenticated: req.session.isLoggedIn,
+        user: req.session.user
+    });
 })
 
 app.use(errorController.get404);

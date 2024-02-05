@@ -8,8 +8,15 @@
 <body>
 
     <h1>Welcome to portal</h1>
-    <a href="/admin/adduser">Add User</a>
     <a href="/admin/users">View Users</a>
+    <a href="/admin/Signup">Signup</a>
+    <a href="/admin/Login">Login</a>
+    <% if(isAuthenticated){ %>
+        <a href="/admin/logout">Logout</a>
+        <br><br>
+        <p>Welcome <%= user.name %>,<br>
+        Email: <%= user.email %></p>
+    <% } %>
     
 </body>
 </html>

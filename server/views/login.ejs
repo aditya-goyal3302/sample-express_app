@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="/CSS/add-user.css">
+</head>
+<body>
+    <h1>Welcome to portal</h1>
+    <a href="/">Home</a>
+    <a href="/admin/users">View Users</a>
+    <a href="/admin/signup">Signup</a><br><br>
+    <form action="/admin/login" method="POST">
+        <p><%= error %></p>
+        <div>
+            <label for="email">email:</label>
+            <input type="text" id="email" name="email" required><br><br>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br><br>
+        </div>
+        <input type="submit" value="Login">
+    </form>
+</body>
+</html>
+

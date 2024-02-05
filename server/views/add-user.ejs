@@ -9,24 +9,38 @@
 <body>
     <h1>Welcome to portal</h1>
     <a href="/">Home</a>
-    <a href="/admin/users">View Users</a><br><br>
-    <form action="/admin/<%= editing == true ?'edituser':'adduser'%>" method="POST">
+    <a href="/admin/users">View Users</a>
+    <a href="/admin/Login">Login</a><br><br>
+    <form action="/admin/<%= editing == true ?'edituser':'signup'%>" method="POST">
         <input type="hidden" name="id" value="<%= editing == true ?user._id:''%>">
+        <p><%= error %></p>
         <div>
             <label for="name">Name:</label>
-            <input type="text" id="name" name="name" required value="<%= editing == true ?user.name:''%>">
-        </div>
-        <div>
-            <label for="city">City:</label>
-            <input type="text" id="city" name="city" required value="<%= editing == true ?user.city:''%>">
+            <input type="text" id="name" name="name" required value="<%= edit == true ?user.name:''%>">
         </div>
         <div>
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required value="<%= editing == true ?user.email:''%>">
+            <input type="email" id="email" name="email" required value="<%= edit == true ?user.email:''%>">
         </div>
+
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+
+        <div>
+            <label for="password2">Confirm Password:</label>
+            <input type="password" id="password2" name="password2" required>
+        </div>
+
+        <div>
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" required value="<%= edit == true ?user.city:''%>">
+        </div>
+
         <div>
             <label for="age">Age:</label>
-            <input type="number" id="age" name="age" required value="<%= editing == true ?user.age:''%>">
+            <input type="number" id="age" name="age" required value="<%= edit == true ?user.age:''%>">
         </div>
         <button type="submit">Add User</button>
     </form>

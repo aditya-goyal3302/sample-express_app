@@ -11,23 +11,23 @@ exports.getAddUser = (req, res, next) => {
 
     });
 }
-exports.postAddUser = (req, res, next) => {
-    const user = new User({
-        email: req.body.email,
-        name: req.body.name,
-        age: req.body.age,
-        city: req.body.city
-    });
-    user
-        .save()
-        .then(result => {
-            console.log('Created User');
-            res.redirect('/admin/users');
-        })
-        .catch(err => {
-            console.log(err);
-        });
-}
+// exports.postAddUser = (req, res, next) => {
+//     const user = new User({
+//         email: req.body.email,
+//         name: req.body.name,
+//         age: req.body.age,
+//         city: req.body.city
+//     });
+//     user
+//         .save()
+//         .then(result => {
+//             console.log('Created User');
+//             res.redirect('/admin/users');
+//         })
+//         .catch(err => {
+//             console.log(err);
+//         });
+// }
 exports.getUsers = (req, res, next) => {
     res.render('users')
 }
@@ -76,6 +76,7 @@ exports.getEditUser = (req, res, next) => {
             pageTitle:'Edit User',
             path:'/edituser',
             editing:true,
+            edit:true,
             user:user
         });
     })
@@ -136,6 +137,7 @@ exports.getSearch = (req, res, next) => {
         ]  })
         .skip((currentPage*perPage)-perPage)
         .limit(perPage)
+        .select('name email city age')
         .sort({[sort]:order})
     })
     .then(users=>{

@@ -66,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if(userdata.length > 0){
         render();
+        loader();
     }   
     else{
         loader();
