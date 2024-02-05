@@ -11,15 +11,16 @@
     <input type="text" id="search" onchange="search_()"/>
     <table border="1px">
         <tr>
-            <th>Name</th>
-            <th>age</th>
-            <th>E-mail</th>
-            <th>city</th>
+            <th onclick="sort_('name')">Name</th>
+            <th onclick="sort_('age')">age</th>
+            <th onclick="sort_('email')">E-mail</th>
+            <th onclick="sort_('city')">city</th>
             <th>Edit</th>
             <th>Delete</th>
         </tr>
         <tbody id = "tbody">
-           
+
+            
 
         </tbody>
     </table>
@@ -34,6 +35,7 @@
         <p class="crrno" id="page" > </p>
         <button onclick="next()" id="next_btn"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7.293 4.707 14.586 12l-7.293 7.293 1.414 1.414L17.414 12 8.707 3.293 7.293 4.707z"/></svg></button>
         <item id="item" class="crrno"> 0 - 0</item>
+
     </section>
     
 </body>

@@ -1,22 +1,37 @@
 // Purpose: To handle the user data and render it on the page.
-var Limit =2;
-var Page = 1;
-var userdata = []
-var page_info = {}
+var Limit =  localStorage.getItem("Limit") || 2;
+var Page =  localStorage.getItem("Page") || 1;
+var userdata =  JSON.parse(localStorage.getItem("userdata")) || []
+var page_info = JSON.parse(localStorage.getItem("page_info")) || {}
 var url = 'http://localhost:2984/admin';
 var searchQuery = "";
+var sort = "name";
+var order = "asc";
+
+const sort_ = async (sortby)=>{
+    if (sortby == sort){
+        order = order == 'asc'?'desc':'asc';
+    }
+    else{
+        sort = sortby;
+        order = 'asc';
+    }
+    await get_data(Page,Limit);
+}
+
+const set_local_data = ()=>{
+    localStorage.setItem('userdata',JSON.stringify(userdata));
+    localStorage.setItem('page_info',JSON.stringify(page_info));
+    localStorage.setItem('Page',Page);
+    localStorage.setItem('Limit',Limit);
+}
 
 const get_data = async (pageno,limit) => {
-    await fetch(url+'/search',{
-        method:'POST',
+    await fetch(url+`/search?page=${pageno}&limit=${limit}&searchQuery=${searchQuery != ""?searchQuery:""}&sort=${sort == ""?null:sort}&order=${order == ""?null:order}`,{
+        method:'GET',
         headers:{
             'Content-Type':'application/json'
-        },
-        body:JSON.stringify({
-            page:pageno,
-            limit:limit,
-            searchQuery:searchQuery
-        })
+        }
     })
     .then(res=>{
         return res.json();
@@ -33,7 +48,7 @@ const get_data = async (pageno,limit) => {
             previousPage: data.previousPage,
             t:data.t
         }
-        // console.log(userdata);        
+        set_local_data();
         render();
     })
     .catch(err=>{
@@ -41,15 +56,21 @@ const get_data = async (pageno,limit) => {
     })
 }
 document.addEventListener("DOMContentLoaded", () => {
-    url = window.location.href.split('/users')[0]; 
     document.getElementById('page').innerText = Page;
     document.getElementById('select').value = Limit;
+    url = window.location.href.split('/users')[0]; 
      const loader = async ()=>{
         let pageno = Page ;
         let limit = Limit;
         await get_data(pageno,limit);
     }
-     loader();
+    if(userdata.length > 0){
+        render();
+    }   
+    else{
+        loader();
+    }
+     
   });
 
 function render(){
@@ -78,7 +99,7 @@ function render(){
 }
 
 async function next (){
-    let pageno = Page + 1;
+    let pageno = +Page + 1;
     let limit = Limit;
     await get_data(pageno,limit);
 
@@ -129,34 +150,4 @@ const search_ = async ()=>{
     const limit = Limit;
     searchQuery = document.getElementById('search').value;
     await get_data(page,limit,searchQuery);
-    // await fetch(url+'/search',{
-    //     method:'POST',
-    //     headers:{
-    //         'Content-Type':'application/json'
-    //     },
-    //     body:JSON.stringify({
-    //         pageno:page,
-    //         limit:limit,
-    //         searchQuery:searchQuery
-    //     })
-    // })
-    // .then(res=>{
-    //     return res.json();
-    // })
-    // .then(data1=>{
-    //     console.log(data1);
-    //     userdata = data1.users;
-    //     Page = data1.currentPage;
-    //     Limit = data1.limit;
-    //     page_info = {
-    //         hasNextPage: data1.hasNextPage,
-    //         hasPreviousPage: data1.hasPreviousPage,
-    //         nextPage: data1.nextPage,
-    //         previousPage: data1.previousPage,
-    //         t:data1.t
-    //     }
-    //     render();
-    // })
 }
-
- 
